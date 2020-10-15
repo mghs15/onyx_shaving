@@ -139,14 +139,19 @@ app.get(`/xyz/:t/:z/:x/:y.pbf`, async (req, res) => {
             }
         };
         shaver.shave(r.tile, options, function(err, shavedTile) {
-            if (err) throw err;
-            console.log(shavedTile); // => vector tile buffer
-            res.set('content-type', 'application/vnd.mapbox-vector-tile')
-            res.set('content-encoding', 'gzip')
-            res.set('last-modified', r.headers['Last-Modified'])
-            res.set('etag', r.headers['ETag'])
-            res.send(shavedTile)
-            busy = false
+            if (err){
+                console.log(srr)
+                res.status(404).send(`7: tile not found: /xyz/${t}/${z}/${x}/${y}.pbf`)
+                busy = false
+            }else{
+                console.log(shavedTile); // => vector tile buffer
+                res.set('content-type', 'application/vnd.mapbox-vector-tile')
+                res.set('content-encoding', 'gzip')
+                res.set('last-modified', r.headers['Last-Modified'])
+                res.set('etag', r.headers['ETag'])
+                res.send(shavedTile)
+                busy = false
+            }
         });
         
       } else {
