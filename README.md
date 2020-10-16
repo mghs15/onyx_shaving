@@ -12,15 +12,58 @@ package.jsonはonyxのものにvtshaverを追加したものです。
 ```
 npm install
 
-# set style you want to use
+# set style you want to use (for app3.js)
 mkdir style
 touch ./style/test.json
+
+# or set filter you want to use (for app5.js)
+mkdir filter
+touch ./filter/test.json
 
 mkdir htdocs
 mkdir mbtiles
 mkdir config
 touch ./config/default.hjson
 ```
+
+example of filter (schema from a part of gsimaps vector)
+```
+{ "building":
+   { "filters": true,
+     "minzoom": 14,
+     "maxzoom": 18,
+     "properties": [ "ftCode" ] },
+  "waterarea":
+   { "filters": true,
+     "minzoom": 11,
+     "maxzoom":18,
+     "properties": [ "ftCode" ] },
+  "road":
+   { "filters": true,
+     "minzoom": 11,
+     "maxzoom":18,
+     "properties": [ "ftCode", "rdCtg", "motorway", "rnkWidth" ] },
+  "railway":
+   { "filters": true,
+     "minzoom": 14,
+     "maxzoom":17,
+     "properties": [ "ftCode", "snglDbl", "staCode", "railState", "rtCode" ] },
+  "label":
+   { "filters": true,
+     "minzoom": 11,
+     "maxzoom":18,
+     "properties": [ "ftCode" ] },
+  "symbol":
+   { "filters": true,
+     "minzoom": 11,
+     "maxzoom":18,
+     "properties": [ "ftCode", "alti", "gcpCodeFlag" ] }
+}
+```
+
+* フルデータを持つmbtilesから、必要な地物だけfilter.jsonで抜き出して配信するのが良いかも。
+* filterをかけたタイルは、ちゃんとサイズも減っている。
+* だが、filterの中のminzoomは、たぶん機能していない。（maxzoomは機能しているみたい。）
 
 ## 参考文献
 
